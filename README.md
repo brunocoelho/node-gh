@@ -1,4 +1,10 @@
-# Node GH [![Build Status](https://secure.travis-ci.org/node-gh/gh.svg?branch=master)](https://travis-ci.org/node-gh/gh) [![NPM version](https://badge.fury.io/js/gh.svg)](http://badge.fury.io/js/gh) [![Dependency Status](https://david-dm.org/node-gh/gh.svg?theme=badge.io)](https://david-dm.org/node-gh/gh)
+# Node GH
+
+[![NPM version](http://img.shields.io/npm/v/gh.svg?style=flat)](http://npmjs.org/gh)
+[![NPM downloads](http://img.shields.io/npm/dm/gh.svg?style=flat)](http://npmjs.org/gh)
+[![Build Status](http://img.shields.io/travis/node-gh/gh/master.svg?style=flat)](https://travis-ci.org/node-gh/gh)
+[![Dependencies Status](http://img.shields.io/david/node-gh/gh.svg?style=flat)](https://david-dm.org/node-gh/gh)
+[![DevDependencies Status](http://img.shields.io/david/dev/node-gh/gh.svg?style=flat)](https://david-dm.org/node-gh/gh#info=devDependencies)
 
 ![Class Octocat](http://nodegh.io/images/class-octocat.jpg)
 
@@ -127,7 +133,7 @@ gh pr --list --sort popularity
     ```
 gh pr --list --sort long-running --direction asc
     ```
-    
+
 * List open pull requests and sort them by complexity *(complexity is calculated based on number of additions, deletions, changed files, comments and review comments)*.
 
     ```
@@ -224,6 +230,9 @@ Option           | Usage        | Type
 `--fwd`          | **Required** | `String`
 `-n`, `--number` | **Required** | `Number`
 
+Omitting a value for `--fwd` fallbacks to the `default_pr_forwarder` key found
+in your [config file](#config).
+
 #### Examples
 
 * Forward a pull request to another reviewer.
@@ -285,7 +294,9 @@ Option                  | Usage        | Type
 `-r`, `--repo`          | *Optional*   | `String`
 `-t`, `--title`         | *Optional*   | `String`
 
-Omitting `--title` will submit a pull request using the last commit message as title.
+Omitting a value for `--submit` fallbacks to the `default_pr_reviewer` key found
+in your [config file](#config). Omitting `--title` will submit a pull request
+using the last commit message as title.
 
 #### Examples
 
@@ -568,6 +579,11 @@ Option                 | Usage        | Type
 
 #### Examples
 
+* **Shortcut** for opening GitHub issue page in the browser.
+    ```
+gh is 100
+    ```
+
 * Open GitHub issue page in the browser.
 
     ```
@@ -848,6 +864,20 @@ gh user --login
 gh user --logout
     ```
 
+### 2. Whoami
+
+Option             | Usage        | Type
+---                | ---          | ---
+`-w`, `--whoami`   | **Required** | `Boolean`
+
+#### Examples
+
+* Prints your username to stdout.
+
+    ```
+gh user --whoami
+    ```
+
 ## Alias
 
 ```
@@ -910,6 +940,8 @@ gh alias --remove zeno
 There are some pretty useful configurations that you can set on [.gh.json](https://github.com/node-gh/gh/blob/master/.gh.json).
 This file can be found under home directory *(on MacOSx: `/Users/yourName/.gh.json` on Windows: `C:\\Users\yourName\.gh.json`)*.
 
+You can also set per-project configurations by adding a `.gh.json` file in your project's root folder and overriding existing keys.
+
 * GitHub API configurations. Change it if you're a [GitHub Enterprise](https://enterprise.github.com/) user.
 
     ```javascript
@@ -925,6 +957,13 @@ This file can be found under home directory *(on MacOSx: `/Users/yourName/.gh.js
     ```javascript
 "default_branch": "master",
 "default_remote": "origin"
+    ```
+
+* Set default users when [submitting](#7-submit) or [forwarding](#5-forward) pull requests.
+
+    ```javascript
+"default_pr_forwarder": "",
+"default_pr_reviewer": ""
     ```
 
 * GitHub data filled once you log in.
@@ -972,6 +1011,8 @@ This file can be found under home directory *(on MacOSx: `/Users/yourName/.gh.js
     ```javascript
 "signature": "<br><br>:octocat: *Sent from [GH](http://nodegh.io).*"
     ```
+
+If you need to use a custom git command, set the environment variable `GH_GIT_COMMAND`.
 
 ## Plugins
 
@@ -1031,16 +1072,11 @@ Node GH is maintained by these guys and some awesome [contributors](https://gith
 
 ## Contributing
 
-If you want to fix bugs or add new features you'll need to run in development environment.
-
-1. Remove the installed version from NPM: `npm rm -g gh`
-2. Go to the package folder and create a symlink: `npm link`
-
-Contribute new commands to this project by copying and editing the content of [Hello World](https://github.com/node-gh/gh/blob/master/lib/cmds/hello.js) example.
+For detailed instructions, check [Contributing](https://github.com/node-gh/gh/blob/master/CONTRIBUTING.md).
 
 ## History
 
-Check [Release](https://github.com/node-gh/gh/releases) list.
+For detailed changelog, check [Releases](https://github.com/node-gh/gh/releases).
 
 ## License
 
